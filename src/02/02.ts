@@ -1,4 +1,4 @@
-import { product, sum } from '@/advent'
+import { lines, product, sum } from '@/advent'
 
 const Colors = ['red', 'green', 'blue'] as const
 type Color = (typeof Colors)[number]
@@ -25,14 +25,11 @@ export function parse(input: string): Game[] {
       return { color, amount: parseInt(amount!) }
     })
 
-  return input
-    .split('\n')
-    .filter(l => l.length > 0)
-    .map(l => {
-      const [_, cubesStr] = l.split(': ')
-      const cubes = cubesStr!.split('; ').flatMap(pDraw)
-      return { cubes }
-    })
+  return lines(input).map(l => {
+    const [_, cubesStr] = l.split(': ')
+    const cubes = cubesStr!.split('; ').flatMap(pDraw)
+    return { cubes }
+  })
 }
 
 type Input = ReturnType<typeof parse>

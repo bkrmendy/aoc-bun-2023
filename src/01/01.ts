@@ -1,8 +1,6 @@
-import { sum, tails } from '@/advent'
+import { lines, sum, tails } from '@/advent'
 
-export function parse(input: string) {
-  return input.split('\n').filter(l => l.length > 0)
-}
+export const parse = lines
 
 const result = (first: number, second: number) => 10 * first + second
 
