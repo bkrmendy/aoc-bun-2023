@@ -16,7 +16,11 @@ await scaffold(day, year)
 
 const name = `${day}`.padStart(2, '0')
 
-const { default: input } = await import(`@/${name}/input.txt`)
+const inputPath: string = argv.find(arg => arg === '-e' || arg === '--example')
+  ? `@/${name}/example.txt`
+  : `@/${name}/input.txt`
+
+const { default: input } = await import(inputPath)
 const { partOne, partTwo, parse } = await import(`@/${name}/${name}.ts`)
 
 const [one, onePerformance] = withPerformance(() => partOne?.(parse(input)))
