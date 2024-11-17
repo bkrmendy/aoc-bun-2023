@@ -30,10 +30,12 @@ export async function scaffold(day: number, year: number) {
   export function parse(input: string) {
     return input
   }
-  
-  export function partOne(input: ReturnType<typeof parse>) {}
 
-  export function partTwo(input: ReturnType<typeof parse>) {}
+  type Input = ReturnType<typeof parse>
+  
+  export function partOne(input: Input) {}
+
+  export function partTwo(input: Input) {}
   `
 
   console.log(`📂 Fetching your input`)
