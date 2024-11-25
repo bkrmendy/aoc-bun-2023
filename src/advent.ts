@@ -31,3 +31,14 @@ export function* matchAll(s: string, re: RegExp): Iterable<RegExpExecArray> {
 export function intersection(a: Set<any>, b: Set<any>) {
   return new Set([...a].filter(x => b.has(x)))
 }
+
+export function* zip<T, U>(a: T[], b: U[]): Iterable<[T, U]> {
+  const length = Math.min(a.length, b.length)
+  for (let i = 0; i < length; i++) {
+    yield [a.at(i)!, b.at(i)!]
+  }
+}
+
+export function maximum(numbers: number[]) {
+  return Math.max(...numbers)
+}
