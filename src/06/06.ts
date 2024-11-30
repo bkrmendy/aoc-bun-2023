@@ -1,9 +1,13 @@
-import { lines, product, zip } from '@/advent'
+import { lines, product, words, zip } from '@/advent'
 
 export function parse(input: string): [number[], number[]] {
   const [time, distance] = lines(input)
-  const ts = [...time!.matchAll(/\d+/g)!].map(Number)
-  const ds = [...distance!.matchAll(/\d+/g)!].map(Number)
+  const ts = words(time!)
+    .map(Number)
+    .filter(n => !isNaN(n))
+  const ds = words(distance!)
+    .map(Number)
+    .filter(n => !isNaN(n))
   return [ts, ds]
 }
 
