@@ -42,3 +42,15 @@ export function* zip<T, U>(a: T[], b: U[]): Iterable<[T, U]> {
 export function maximum(numbers: number[]) {
   return Math.max(...numbers)
 }
+
+export function minimum(numbers: number[]) {
+  return Math.min(...numbers)
+}
+
+export function chunks<T>(arr: T[], size: number): T[][] {
+  let result: T[][] = []
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size))
+  }
+  return result
+}
