@@ -1,4 +1,5 @@
-import { div, lines, maximum, unsafeGet, sum, zip } from '@/advent'
+import { div, lines, unsafeGet, sum, zip } from '@/advent'
+import { pipe } from 'effect'
 
 export interface Position {
   r: number
@@ -91,25 +92,28 @@ function findStartingPosition(input: string[][]) {
 }
 
 export function partOne(input: Input) {
-  let position: Position = findStartingPosition(input)
-
-  return div(walk(position, LEFT, input).length, 2)
+  return pipe(
+    input,
+    findStartingPosition,
+    p => walk(p, LEFT, input),
+    w => div(w.length, 2)
+  )
 }
 
 export function partTwo(input: Input) {
-  let position: Position = findStartingPosition(input)
-
-  let perimeter = walk(position, LEFT, input)
-  perimeter.push(perimeter.at(0)!)
-
-  const shoelace = div(
-    sum(
-      [...zip(perimeter, perimeter.slice(1))].map(
-        ([p, pn]) => (p.c - pn.c) * (p.r + pn.r)
+  return pipe(
+    input,
+    findStartingPosition,
+    position => walk(position, LEFT, input),
+    ([start, ...rest]) => [start!, ...rest, start!],
+    perimeter =>
+      pipe(
+        [...zip(perimeter, perimeter.slice(1))].map(
+          ([p, pn]) => (p.c - pn.c) * (p.r + pn.r)
+        ),
+        sum,
+        s => div(s, 2),
+        s => s - div(perimeter.length, 2) + 1
       )
-    ),
-    2
   )
-  const inner = shoelace - div(perimeter.length, 2) + 1
-  return inner
 }
