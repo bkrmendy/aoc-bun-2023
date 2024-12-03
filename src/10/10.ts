@@ -1,5 +1,5 @@
 import { div, lines, unsafeGet, sum, zip } from '@/advent'
-import { pipe } from 'effect'
+import { pipe, Match } from 'effect'
 
 export interface Position {
   r: number
@@ -39,23 +39,31 @@ const DIRS: Record<string, (elf: Elf) => Elf> = {
     position: step(position, facing)
   }),
   L: ({ position, facing }) => {
-    const goingDown = facing.h !== 0
-    const nextFacing: Facing = goingDown ? RIGHT : UP
+    const nextFacing = Match.value(facing).pipe(
+      Match.when({ h: 0 }, () => UP),
+      Match.orElse(() => RIGHT)
+    )
     return { position: step(position, nextFacing), facing: nextFacing }
   },
   J: ({ position, facing }) => {
-    const goingDown = facing.h !== 0
-    const nextFacing: Facing = goingDown ? LEFT : UP
+    const nextFacing = Match.value(facing).pipe(
+      Match.when({ h: 0 }, () => UP),
+      Match.orElse(() => LEFT)
+    )
     return { position: step(position, nextFacing), facing: nextFacing }
   },
   '7': ({ position, facing }) => {
-    const goingDown = facing.h !== 0
-    const nextFacing: Facing = goingDown ? LEFT : DOWN
+    const nextFacing = Match.value(facing).pipe(
+      Match.when({ h: 0 }, () => DOWN),
+      Match.orElse(() => LEFT)
+    )
     return { position: step(position, nextFacing), facing: nextFacing }
   },
   F: ({ position, facing }) => {
-    const goingDown = facing.h !== 0
-    const nextFacing: Facing = goingDown ? RIGHT : DOWN
+    const nextFacing = Match.value(facing).pipe(
+      Match.when({ h: 0 }, () => DOWN),
+      Match.orElse(() => RIGHT)
+    )
     return { position: step(position, nextFacing), facing: nextFacing }
   },
   S: ({ position, facing }) => ({ facing, position })
